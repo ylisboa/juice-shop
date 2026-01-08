@@ -1,0 +1,39 @@
+
+name: CI WAS Scan
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  tenablescan:
+    name: was-cicd
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+      - name: Build + Run Juice
+        run: |
+          docker pull bkimminich/juice-shop
+          docker run -d --rm -p 3000:3000 --name juice bkimminich/juice-shop
+      - name: Run WAS
+        run: |
+          docker pull tenable/was-scanner:latest
+          docker run -v $(pwd):/scanner -t -e WAS_MODE=cicd -e ACCESS_KEY=${ACCESS_KEY} -e SECRET_KEY=${SECRET_KEY} --link juice tenable/was-scanner:latest || true
+          ls $(pwd)
+        env:
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      - name: Upload Scan Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: scan-vulnerability-output
+          path: tenable_was_scan.html
+      - name: Upload Scan Log Troubleshooting Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: scan-troubleshooting-logs
+          path: |
+            scanner.log
+            tenable_was.conf
+
