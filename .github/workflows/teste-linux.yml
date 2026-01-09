@@ -1,8 +1,6 @@
 name: "CI WAS Scan"
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 jobs:
   tenablescan:
     name: was-cicd
