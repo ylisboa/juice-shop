@@ -1,5 +1,4 @@
-
-name: CI WAS Scan
+name: "CI WAS Scan"
 on:
   push:
     branches:
