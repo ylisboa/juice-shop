@@ -6,6 +6,9 @@ jobs:
     name: was-cicd
     runs-on: ubuntu-latest
     steps:
+      - name: Elevar privilegio
+        run: |
+          sudo su
       - name: Instalar docker
         run: |
           apt install docker.io docker-cli
