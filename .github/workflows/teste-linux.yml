@@ -6,6 +6,9 @@ jobs:
     name: was-cicd
     runs-on: ubuntu-latest
     steps:
+      - name: Iniciar docker
+        run: |
+          service docker start
       - name: Clone repo
         uses: actions/checkout@v2
       - name: Build + Run Juice
