@@ -28,19 +28,14 @@ jobs:
         run: |
           # 3. Execute scanner em modo debug
           echo "=== Running WAS Scanner ==="
-          docker run --debug -v $(pwd):/scanner -t \
+          docker run -v $(pwd):/scanner -t \
             -e WAS_MODE=cicd \
             -e ACCESS_KEY=${ACCESS_KEY} \
             -e SECRET_KEY=${SECRET_KEY} \
             -e WAS_TARGET="http://localhost:3000" \
             -e WAS_SCAN_NAME="GitHub_Action_Test" \
             -e WAS_DEBUG="3" \
-            tenable/was-scanner:latest \
-            --verbose 2>&1 | tee was_debug.log || true
-          
-          # 4. Verifique arquivos gerados
-          echo "=== Generated files ==="
-          ls -la
+            tenable/was-scanner:latest || true
           
           # 5. Mostre conteúdo do log se existir
           if [ -f "scanner.log" ]; then
