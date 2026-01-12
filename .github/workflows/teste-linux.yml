@@ -11,7 +11,7 @@ jobs:
           sudo service docker start
       - name: Cria rede
         run: |
-          docker network create was_net
+          docker network create --subnet=192.168.50.0/24 was_net
       - name: Clone repo
         uses: actions/checkout@v2
       - name: Build + Run Juice
@@ -19,7 +19,8 @@ jobs:
          # Execute o Juice Shop na rede compartilhada
           docker run -d --rm \
             --name juice \
-            --network was_net
+            --network was_net \
+            --ip 192.168.50.10 \
             -p 3000:3000 \
             bkimminich/juice-shop
           
