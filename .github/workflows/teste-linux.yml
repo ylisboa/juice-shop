@@ -46,6 +46,7 @@ jobs:
             -e WAS_SCAN_NAME="GitHub_Action_Test" \
             -e WAS_DEBUG="3" \
             --link juice \
+            --network was-network \
             tenable/was-scanner:latest \
             --debug \
             --verbose 2>&1 | tee was_debug.log || true
