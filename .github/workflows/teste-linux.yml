@@ -6,9 +6,6 @@ jobs:
     name: was-cicd
     runs-on: ubuntu-latest
     steps:
-      - name: Instalar docker
-        run: |
-          sudo apt install docker.io docker-cli
       - name: Iniciar docker
         run: |
           sudo service docker start
