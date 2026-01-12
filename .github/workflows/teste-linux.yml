@@ -19,6 +19,7 @@ jobs:
          # Execute o Juice Shop na rede compartilhada
           docker run -d --rm \
             --name juice \
+            --network was_net
             -p 3000:3000 \
             bkimminich/juice-shop
           
@@ -28,11 +29,11 @@ jobs:
         run: |
           # 3. Execute scanner em modo debug
           echo "=== Running WAS Scanner ==="
-          docker run -v $(pwd):/scanner -t \
+          docker run --network was_net -v $(pwd):/scanner -t \
             -e WAS_MODE=cicd \
             -e ACCESS_KEY=${ACCESS_KEY} \
             -e SECRET_KEY=${SECRET_KEY} \
-            -e WAS_TARGET=http://localhost:3000 \
+            -e WAS_TARGET=http://juice.was_net:3000 \
             -e WAS_SCAN_NAME="GitHub_Action_Test" \
             -e WAS_DEBUG="3" \
             tenable/was-scanner:latest || true
