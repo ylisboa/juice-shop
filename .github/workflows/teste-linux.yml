@@ -26,15 +26,6 @@ jobs:
           sleep 15
       - name: Run WAS + degub
         run: |
-          docker pull tenable/was-scanner:latest
-          # 1. Verifique a rede do container juice
-          echo "=== Checking juice container network ==="
-          docker inspect juice | grep -A 10 "NetworkSettings"
-    
-          # 2. Teste conectividade manualmente
-          echo "=== Testing connectivity to juice ==="
-          docker run --rm --link juice alpine nslookup juice
-    
           # 3. Execute scanner em modo debug
           echo "=== Running WAS Scanner ==="
           docker run -v $(pwd):/scanner -t \
@@ -44,7 +35,6 @@ jobs:
             -e WAS_TARGET="http://localhost:3000" \
             -e WAS_SCAN_NAME="GitHub_Action_Test" \
             -e WAS_DEBUG="3" \
-            --link juice \
             tenable/was-scanner:latest \
             --debug \
             --verbose 2>&1 | tee was_debug.log || true
