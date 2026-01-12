@@ -9,6 +9,9 @@ jobs:
       - name: Iniciar docker
         run: |
           sudo service docker start
+      - name: Cria rede
+        run: |
+          docker network create was-network
       - name: Clone repo
         uses: actions/checkout@v2
       - name: Build + Run Juice
