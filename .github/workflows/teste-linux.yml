@@ -15,7 +15,7 @@ jobs:
       - name: Run WAS
         run: |
           docker pull tenable/was-scanner:latest
-          docker run -v $(pwd):/scanner -t -e WAS_MODE=cicd -e ACCESS_KEY=${ACCESS_KEY} -e SECRET_KEY=${SECRET_KEY} --link juice tenable/was-scanner:latest || true
+          docker run -v $(pwd):/scanner -t -e WAS_MODE=cicd -e ACCESS_KEY=${ACCESS_KEY} -e SECRET_KEY=${SECRET_KEY} -e TARGET="http://juice:3000" --link juice tenable/was-scanner:latest || true
           ls $(pwd)
         env:
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
