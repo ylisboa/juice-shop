@@ -11,7 +11,7 @@ jobs:
           sudo service docker start
       - name: Cria rede
         run: |
-          docker network create was-network
+          docker network create was-net
       - name: Clone repo
         uses: actions/checkout@v2
       - name: Build + Run Juice
@@ -29,13 +29,14 @@ jobs:
         run: |
           # 3. Execute scanner em modo debug
           echo "=== Running WAS Scanner ==="
-          docker run --network was_net -v $(pwd):/scanner -t \
+          docker run -v $(pwd):/scanner -t \
             -e WAS_MODE=cicd \
             -e ACCESS_KEY=${ACCESS_KEY} \
             -e SECRET_KEY=${SECRET_KEY} \
             -e WAS_TARGET=http://juice.was_net:3000 \
             -e WAS_SCAN_NAME="GitHub_Action_Test" \
             -e WAS_DEBUG="3" \
+            --network was_net \
             tenable/was-scanner:latest || true
           
           # 5. Mostre conteúdo do log se existir
