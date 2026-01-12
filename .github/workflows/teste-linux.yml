@@ -6,15 +6,12 @@ jobs:
     name: was-cicd
     runs-on: ubuntu-latest
     steps:
-      - name: Elevar privilegio
-        run: |
-          sudo su
       - name: Instalar docker
         run: |
-          apt install docker.io docker-cli
+          sudo apt install docker.io docker-cli
       - name: Iniciar docker
         run: |
-          service docker start
+          sudo service docker start
       - name: Clone repo
         uses: actions/checkout@v2
       - name: Build + Run Juice
