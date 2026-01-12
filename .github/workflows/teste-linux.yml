@@ -28,7 +28,7 @@ jobs:
         run: |
           # 3. Execute scanner em modo debug
           echo "=== Running WAS Scanner ==="
-          docker run -v $(pwd):/scanner -t \
+          docker run --debug -v $(pwd):/scanner -t \
             -e WAS_MODE=cicd \
             -e ACCESS_KEY=${ACCESS_KEY} \
             -e SECRET_KEY=${SECRET_KEY} \
@@ -36,7 +36,6 @@ jobs:
             -e WAS_SCAN_NAME="GitHub_Action_Test" \
             -e WAS_DEBUG="3" \
             tenable/was-scanner:latest \
-            --debug \
             --verbose 2>&1 | tee was_debug.log || true
           
           # 4. Verifique arquivos gerados
